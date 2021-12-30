@@ -32,7 +32,7 @@ Route::group(['middleware' => ['jwt.verify'],
 Route::group(['middleware' => ['jwt.verify'],
     'prefix' => 'maestros'], function() {
     Route::post('update-data-admin-and-beneficiaries',[ActualizarDatosAdministradoController::class,'storeAndUpdate']);
-    Route::post('update-data-admin',[ActualizarDatosAdministradoController::class,'store']);
+   // Route::post('update-data-admin',[ActualizarDatosAdministradoController::class,'store']);
     Route::put('update-data-admin/{id}',[ActualizarDatosAdministradoController::class,'update']);
     Route::get('beneficiarios',[ActualizarDatosAdministradoController::class,'index']);
 });

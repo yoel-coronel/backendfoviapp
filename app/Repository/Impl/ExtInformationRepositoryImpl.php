@@ -60,7 +60,7 @@ class ExtInformationRepositoryImpl implements ExtInformationRepository
         $extInfo->fech_naci_per=$data['fecNac'];
         $extInfo->flag_disc_inf=NULL;
         $extInfo->nume_cona_inf=NULL;
-        $extInfo->iden_expe_trm=NULL;
+        $extInfo->iden_extp_inf=isset($data['iden_extp_inf'])?$data['iden_extp_inf']:null;
         $extInfo->codi_grad_soc=$data['grado'];
         $extInfo->codi_situ_soc=$data['situacion'];
         $extInfo->fech_baja_soc=$data['fecRet'];
@@ -75,7 +75,6 @@ class ExtInformationRepositoryImpl implements ExtInformationRepository
     public function update(array $data, $id)
     {
         $extInfo = $this->model->where('iden_exte_inf', $id)->first();
-        $extInfo->iden_exte_inf=$data['iden_exte_inf'];
         $extInfo->iden_pers_per=$data['iden_pers_per'];
         $extInfo->nume_iden_per=$data['nroIdentidad'];
         $extInfo->apel_pate_per=$data['apelPat'];
@@ -133,36 +132,35 @@ class ExtInformationRepositoryImpl implements ExtInformationRepository
         $data = $request->all();
         $extInformacion = $this->findIdenPersPerAndCip($user['identifier'],$user['cip']);
 
-        $data['iden_pers_per']=$user['identifier'];
-        $data['cip']=$user['cip'];
-        $data['codofin']=$user['codofin'];
+        $data['iden_pers_per'] = $user['identifier'];
+        $data['cip'] = $user['cip'];
+        $data['codofin'] = $user['codofin'];
 
-        if (!$extInformacion){
-            $extInformacion = $this->create($data);
-        }else{
+        if ($extInformacion){
             $data['iden_exte_inf'] = $extInformacion->iden_exte_inf;
             $extInformacion = $this->update($data,$extInformacion->iden_exte_inf);
+        }else{
+            $extInformacion = $this->create($data);
         }
 
         $datos = collect($request->beneficiarios);
 
-        if ($datos->count()>0){
+        if ($datos->count()>0 && $extInformacion){
 
-            foreach ($datos as $kay=>$data){
+            foreach ($datos as $kay=>$detalle){
 
-                $data['iden_extp_inf'] = $extInformacion->iden_exte_inf;
+                $detalle['iden_extp_inf'] = $extInformacion['iden_exte_inf'];
 
-                $extInformacion1 = $this->findNroDNIAndCip($data['nroIdentidad'],$user['cip']);
+                $extInformacion1 = $this->findNroDNIAndCip($detalle['nroIdentidad'],$user['cip']);
 
-                $data['iden_pers_per']=null;
-                $data['cip']=$user['cip'];
-                $data['codofin']=$user['codofin'];
-                if (!$extInformacion1){
-                    $extInformacion1 = $this->create($data);
+                $detalle['iden_pers_per']=null;
+                $detalle['cip'] = $user['cip'];
+                $detalle['codofin'] = $user['codofin'];
+
+                if ($extInformacion1){
+                    $this->update($detalle,(int)$extInformacion1['iden_exte_inf']);
                 }else{
-
-                    $data['iden_exte_inf'] = $extInformacion1->iden_exte_inf;
-                    $extInformacion1 = $this->update($data,$extInformacion1->iden_exte_inf);
+                    $this->create($detalle);
                 }
 
             }
@@ -173,101 +171,83 @@ class ExtInformationRepositoryImpl implements ExtInformationRepository
         $usr->is_active=1;
         $usr->save();
 
-        return $extInformacion;
+        return $this->getBeneficiarios(optional(auth()->user())->toArray());
 
     }
     public function getBeneficiarios(array $user)
     {
-
-        $extInformacion = $this->model->where('iden_pers_per',$user['identifier'])->where('codi_ccip_soc',$user['cip'])->where('flag_exte_inf','<>',0)->first();
-        if ($extInformacion){
-            $extInformacions = $this->model->where('iden_extp_inf',$extInformacion->iden_exte_inf)->where('codi_ccip_soc',$user['cip'])->where('flag_exte_inf','<>',0)->get();
-        }else{
-            $extInformacions = new Collection();
-        }
-
         $extInformacions_form = new Collection();
+        $beneficiarios = new Collection();
+        $extInformacion = optional($this->model->where('iden_pers_per',$user['identifier'])->where('codi_ccip_soc',$user['cip'])->where('flag_exte_inf','<>',0)->first())->toArray();
 
         if($extInformacion){
-            $extInformacions_form->put('administrado',
-                [
-                    'id' => $extInformacion['iden_exte_inf'],
-                    'nroIdentidad' => $extInformacion['nume_iden_per'],
-                    'apelPat' => $extInformacion['apel_pate_per'],
-                    'apelMat' => $extInformacion['apel_mate_per'],
-                    'nombComp' => $extInformacion['nomb_pers_per'],
-                    'estacivil' => $extInformacion['esta_civi_per'],
-                    'email' => $extInformacion['corr_prin_per'],
-                    'celular' => $extInformacion['celu_prin_per'],
-                    'telfijo' => $extInformacion['tlfn_prin_per'],
-                    'nroDpt' => null,
-                    'nroProv' => null,
-                    'nroDis' => $extInformacion['ubig_domi_per'],
-                    'datoDom' => $extInformacion['dire_domi_per'],
-                    'fecNac' => isset($extInformacion['fech_naci_per'])?Carbon::parse($extInformacion['fech_naci_per'])->format('Y-m-d'):null,
-                    'grado' => $extInformacion['codi_grad_soc'],
-                    'situacion' => $extInformacion['codi_situ_soc'],
-                    'fecRet' => isset($extInformacion['fech_baja_soc'])?Carbon::parse($extInformacion['fech_baja_soc'])->format('Y-m-d'):null,
-                    'fecIngr' => isset($extInformacion['fech_iesc_soc'])?Carbon::parse($extInformacion['fech_iesc_soc'])->format('Y-m-d'):null,
-                    'sexo' => $extInformacion['sexo_pers_per'],
-                    'parentesco' => $extInformacion['grad_pare_per']]);
+            $extInformacions_form->put('administrado', $this->getAdministrado($extInformacion));
         }else{
-
-            $administrado = MaePersona::with('socio')->where('iden_pers_per',$user['identifier'])->first();
-            $extInformacions_form->put('administrado',
-                [
-                    'id' => null,
-                    'nroIdentidad' => $administrado['nume_iden_per'],
-                    'apelPat' => $administrado['apel_pate_per'],
-                    'apelMat' => $administrado['apel_mate_per'],
-                    'nombComp' => $administrado['nomb_pers_per'],
-                    'estacivil' => $administrado['esta_civi_per'],
-                    'email' => $user['email'],
-                    'celular' => $user['telephone'],
-                    'telfijo' => $administrado['nume_telc_per'],
-                    'nroDpt' => null,
-                    'nroProv' => null,
-                    'nroDis' => $administrado['ubig_resi_per'],
-                    'datoDom' => $administrado['dire_pers_per'],
-                    'fecNac' => isset($administrado['fech_naci_per'])?Carbon::parse($administrado['fech_naci_per'])->format('Y-m-d'):null,
-                    'grado' => $administrado['socio']['codi_grad_soc'],
-                    'situacion' => $administrado['socio']['codi_situ_soc'],
-                    'fecRet' => isset($administrado['socio']['fech_baja_soc'])?Carbon::parse($administrado['socio']['fech_baja_soc'])->format('Y-m-d'):null,
-                    'fecIngr' => isset($administrado['socio']['fech_iesc_soc'])?Carbon::parse($administrado['socio']['fech_iesc_soc'])->format('Y-m-d'):null,
-                    'sexo' => $administrado['sexo_pers_per'],
-                    'parentesco' => $administrado['grad_pare_per']]);
+            $administrado = optional(MaePersona::with('socio')->where('iden_pers_per',$user['identifier'])->first())->toArray();
+            $extInformacion = optional($this->create($this->getFormateaDataAdministrado($administrado,$user)))->toArray();
+            $extInformacions_form->put('administrado', $this->getAdministrado($extInformacion));
         }
 
-        $beneficiarios = new Collection();
+        $extInformacions = $this->model->where('iden_extp_inf',$extInformacion['iden_exte_inf'])->where('codi_ccip_soc',$user['cip'])->where('flag_exte_inf','<>',0)->get();
 
         if ($extInformacions->count()>0){
             foreach ($extInformacions as $key=>$item) {
-                $beneficiarios->push([
-                    'id' => $item['iden_exte_inf'],
-                    'nroIdentidad' => $item['nume_iden_per'],
-                    'apelPat' => $item['apel_pate_per'],
-                    'apelMat' => $item['apel_mate_per'],
-                    'nombComp' => $item['nomb_pers_per'],
-                    'estacivil' => $item['esta_civi_per'],
-                    'email' => $item['corr_prin_per'],
-                    'celular' => $item['celu_prin_per'],
-                    'telfijo' => $item['tlfn_prin_per'],
-                    'nroDpt' => null,
-                    'nroProv' => null,
-                    'nroDis' => $item['ubig_domi_per'],
-                    'datoDom' => $item['dire_domi_per'],
-                    'fecNac' => isset($item['fech_naci_per'])?Carbon::parse($item['fech_naci_per'])->format('Y-m-d'):null,
-                    'grado' => $item['codi_grad_soc'],
-                    'situacion' => $item['codi_situ_soc'],
-                    'fecRet' => isset($item['fech_baja_soc'])?Carbon::parse($item['fech_baja_soc'])->format('Y-m-d'):null,
-                    'fecIngr' => isset($item['fech_iesc_soc'])?Carbon::parse($item['fech_iesc_soc'])->format('Y-m-d'):null,
-                    'sexo' => $item['sexo_pers_per'],
-                    'parentesco' => $item['grad_pare_per']
-                ]);
+                $beneficiarios->push($this->getAdministrado($item->toArray()));
             }
-
         }
         return $extInformacions_form->put('beneficiarios',$beneficiarios);
+    }
+
+    protected function getAdministrado(array $data){
+            return [
+                'id' => (int) $data['iden_exte_inf'],
+                'nroIdentidad' => $data['nume_iden_per'],
+                'apelPat' => $data['apel_pate_per'],
+                'apelMat' => $data['apel_mate_per'],
+                'nombComp' => $data['nomb_pers_per'],
+                'estacivil' => (int) $data['esta_civi_per'],
+                'email' => $data['corr_prin_per'],
+                'celular' => $data['celu_prin_per'],
+                'telfijo' => $data['tlfn_prin_per'],
+                'nroDpt' => null,
+                'nroProv' => null,
+                'nroDis' => $data['ubig_domi_per'],
+                'datoDom' => $data['dire_domi_per'],
+                'fecNac' => isset($data['fech_naci_per'])?Carbon::parse($data['fech_naci_per'])->format('Y-m-d'):null,
+                'grado' => (int) $data['codi_grad_soc'],
+                'situacion' => (int) $data['codi_situ_soc'],
+                'fecRet' => isset($data['fech_baja_soc'])?Carbon::parse($data['fech_baja_soc'])->format('Y-m-d'):null,
+                'fecIngr' => isset($data['fech_iesc_soc'])?Carbon::parse($data['fech_iesc_soc'])->format('Y-m-d'):null,
+                'sexo' => (int) $data['sexo_pers_per'],
+                'parentesco' => (int) $data['grad_pare_per']
+            ];
+    }
+    protected function getFormateaDataAdministrado(array $data,array $user){
+            return [
+                'nroIdentidad' => $data['nume_iden_per'],
+                'apelPat' => $data['apel_pate_per'],
+                'apelMat' => $data['apel_mate_per'],
+                'nombComp' => $data['nomb_pers_per'],
+                'estacivil' => $data['esta_civi_per'],
+                'email' => $user['email'],
+                'cip' => $user['cip'],
+                'codofin' => $user['codofin'],
+                'celular' => $user['telephone'],
+                'telfijo' => $data['nume_telc_per'],
+                'iden_pers_per' => $user['identifier'],
+                'nroDpt' => null,
+                'nroProv' => null,
+                'nroDis' => $data['ubig_resi_per'],
+                'datoDom' => $data['dire_pers_per'],
+                'fecNac' => isset($data['fech_naci_per'])?Carbon::parse($data['fech_naci_per'])->format('Y-m-d'):null,
+                'grado' => $data['socio']['codi_grad_soc'],
+                'situacion' => $data['socio']['codi_situ_soc'],
+                'fecRet' => isset($data['socio']['fech_baja_soc'])?Carbon::parse($data['socio']['fech_baja_soc'])->format('Y-m-d'):null,
+                'fecIngr' => isset($data['socio']['fech_iesc_soc'])?Carbon::parse($data['socio']['fech_iesc_soc'])->format('Y-m-d'):null,
+                'sexo' => $data['sexo_pers_per'],
+                'parentesco' => $data['grad_pare_per']
+            ];
+
     }
 
     public function findIdenPersPerAndCip($idenpersper, $cip)

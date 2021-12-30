@@ -20,6 +20,7 @@ class ActualizarDatosAdministradoController extends Controller
         return $this->showAll(collect($this->extInformationService->getAllAuth($user)));
     }
     public function store(Request $request){
+
         $rules = [
             'apelPat' => 'required|string',
             'apelMat' => 'required|string',
@@ -40,12 +41,15 @@ class ActualizarDatosAdministradoController extends Controller
             'parentesco'=>'nullable',
             'fecRet' => 'nullable|date',
         ];
+
         $validated = Validator::make($request->all(),$rules,$this->messages());
+
         if ($validated->fails()){
             return $this->errorResponseFails(collect($validated->errors()->all()));
         }
         $user = auth()->user()->toArray();
         $info = $this->extInformationService->store($request,$user);
+
         if($info){
             return $this->successResponseStatus("Registrado con éxito");
         }else{
@@ -117,8 +121,8 @@ class ActualizarDatosAdministradoController extends Controller
             return $this->errorResponseFails(collect($validated->errors()->all()));
         }
         $user = auth()->user()->toArray();
-        $this->extInformationService->storeAndUpdate($request,$user);
-        return $this->successResponseStatus("Registrado con éxito");
+        $data = $this->extInformationService->storeAndUpdate($request,$user);
+        return $this->showAll(collect($data));
     }
 
     public function messages()

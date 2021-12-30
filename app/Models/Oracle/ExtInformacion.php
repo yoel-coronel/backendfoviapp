@@ -2,6 +2,7 @@
 
 namespace App\Models\Oracle;
 
+use Illuminate\Support\Facades\DB;
 use Yajra\Oci8\Eloquent\OracleEloquent as Eloquent;
 
 class ExtInformacion extends Eloquent
@@ -61,7 +62,9 @@ class ExtInformacion extends Eloquent
     public static function generateKey(){
         $data =  ExtInformacion::orderby('iden_exte_inf','DESC')->take(1)->get();
         if ($data) {
-              return (int) $data->max('iden_exte_inf') + 1;
+                $Secu = (int) $data->max('iden_exte_inf') + 1;
+                DB::connection('oracle')->update('UPDATE SIFO.ADM_SECUENCIA SET GENE_VAL = ? WHERE IDEN_GENE_TAB = ?',[$Secu,'EXT_INFORMACION']);
+              return $Secu;
         }
         return 1;
     }

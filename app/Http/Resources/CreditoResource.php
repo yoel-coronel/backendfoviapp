@@ -22,14 +22,14 @@ class CreditoResource extends JsonResource
             'amount_requested' => round($this->resource->impo_soli_crd,2),//round($output['impo_soli_crd'],2),
             'amount_response' => round($this->resource->impo_gira_crd,2),//round($output['impo_gira_crd'],2),
             'number_of_installments' => $this->resource->nume_cuot_prd,//force_cast($output['nume_cuot_prd']),
-            'credit_status' => $this->resource->creditStatus->valo_cadu_det,//$output['flag_cred_crd'], //
+            'credit_status' => optional($this->resource->creditStatus)->valo_cadu_det,//$output['flag_cred_crd'], //
             'product' => $this->resource->product->nomb_prod_prd,// $output['iden_prod_prd'], //
             'initial_payment' =>   round($this->resource->impo_inic_crd,2),//$output['impo_inic_crd'],
             'expired_debt' =>  round($this->resource->sald_venc_crd,2),//round($output['sald_venc_crd'],2),
             'expired_deadlines' =>  $this->resource->nucu_venc_crd,//force_cast($output['nucu_venc_crd']),
             'last_payment_date' =>  $this->resource->fech_ulti_pag,//force_cast($output['fech_ulti_pag']),
             'cancellation_amount' =>  round($this->resource->sald_soli_crd,2) + round($this->resource->sald_venc_crd,2),// round($output['sald_soli_crd'] + $output['sald_venc_crd'],2), //
-            'reason_for_credit' => $this->resource->reasonForCredit->valo_cadu_det,//$output['codi_apli_crd'], //
+            'reason_for_credit' => optional($this->resource->reasonForCredit)->valo_cadu_det,//$output['codi_apli_crd'], //
             'date_of_entry' =>Carbon::parse($this->resource->fech_crea_aud)->format('d/m/Y'),
         ];
     }
