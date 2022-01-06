@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Collection;
+
 interface RecursosService
 {
     public function getConstantEntityForCode($code);
@@ -17,4 +19,5 @@ interface RecursosService
     public function getDistritos($id);
     public function getPTypeDoc();
     public function getTiposTramitesDig();
+    public function getEmpresas():Collection;
 }

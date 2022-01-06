@@ -12,6 +12,7 @@ use App\Repository\Impl\CrdCreditoRepositoryImpl;
 use App\Repository\Impl\ExtInformationRepositoryImpl;
 use App\Repository\Impl\FileEntityRepositoryImpl;
 use App\Repository\Impl\HelpQuestionRepositoryImpl;
+use App\Repository\Impl\MaeEmpresaRepositoryImpl;
 use App\Repository\Impl\MaeEntidaddetRepositoryImpl;
 use App\Repository\Impl\MaeProcesoRepositoryImpl;
 use App\Repository\Impl\MaeUbigeoRepositoryImpl;
@@ -20,6 +21,7 @@ use App\Repository\Impl\RecAporteRepositoryImpl;
 use App\Repository\Impl\TrmTramiteRepositoryImpl;
 use App\Repository\Impl\UploadDocumentRepositoryImpl;
 use App\Repository\Impl\UserRepositoryImpl;
+use App\Repository\MaeEmpresaRepository;
 use App\Repository\MaeEntidaddetRepository;
 use App\Repository\MaeProcesoRepository;
 use App\Repository\MaeUbigeoRepository;
@@ -76,6 +78,7 @@ class UploadRepositoryServiceProvider extends ServiceProvider
             FileEntityRepository::class => FileEntityRepositoryImpl::class,
             HelpQuestionRepository::class => HelpQuestionRepositoryImpl::class,
             NotificationEntityRepository::class => NotificationEntityRepositoryImpl::class,
+            MaeEmpresaRepository::class => MaeEmpresaRepositoryImpl::class,
 
             //all services map
             UserService::class => UserServiceImpl::class,

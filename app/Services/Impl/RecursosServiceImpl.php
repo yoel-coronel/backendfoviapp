@@ -2,19 +2,27 @@
 
 namespace App\Services\Impl;
 
+use App\Repository\MaeEmpresaRepository;
 use App\Repository\MaeEntidaddetRepository;
 use App\Repository\MaeUbigeoRepository;
 use App\Services\RecursosService;
+use Illuminate\Support\Collection;
 
 class RecursosServiceImpl implements RecursosService
 {
     protected $maeEntidaddetRepository;
     protected $ubigeoRepository;
+    protected $maeEmpresaRepository;
 
-    public function __construct(MaeEntidaddetRepository $maeEntidaddetRepository,MaeUbigeoRepository $ubigeoRepository)
+    public function __construct(
+        MaeEntidaddetRepository $maeEntidaddetRepository,
+        MaeUbigeoRepository $ubigeoRepository,
+        MaeEmpresaRepository $maeEmpresaRepository
+    )
     {
         $this->maeEntidaddetRepository = $maeEntidaddetRepository;
         $this->ubigeoRepository = $ubigeoRepository;
+        $this->maeEmpresaRepository = $maeEmpresaRepository;
     }
 
     public function getConstantEntityForCode($code)
@@ -83,4 +91,16 @@ class RecursosServiceImpl implements RecursosService
     }
 
 
+    public function getEmpresas():Collection
+    {
+        return $this->maeEmpresaRepository->getEmpresas()->map(function ($item){
+            return [
+                'id' => $item->iden_empr_emp,
+                'nombre' => $item->razo_soci_emp,
+                'direccion' =>$item->desc_dire_emp,
+                'nombre_comercial' => $item->nomb_come_emp,
+                'ruc' => $item->nume_ruc_emp
+            ];
+        });
+    }
 }
