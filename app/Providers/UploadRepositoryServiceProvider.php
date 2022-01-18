@@ -21,6 +21,7 @@ use App\Repository\Impl\RecAporteRepositoryImpl;
 use App\Repository\Impl\TrmTramiteRepositoryImpl;
 use App\Repository\Impl\UploadDocumentRepositoryImpl;
 use App\Repository\Impl\UserRepositoryImpl;
+use App\Repository\Impl\VwAuraCreditoSocioRepositoryImpl;
 use App\Repository\MaeEmpresaRepository;
 use App\Repository\MaeEntidaddetRepository;
 use App\Repository\MaeProcesoRepository;
@@ -30,6 +31,7 @@ use App\Repository\RecAporteRepository;
 use App\Repository\TrmTramiteRepository;
 use App\Repository\UploadDocumentRepository;
 use App\Repository\UserRepository;
+use App\Repository\VwAuraCreditoSocioRepository;
 use App\Services\AporteService;
 use App\Services\CreditoService;
 use App\Services\ExtInformationService;
@@ -79,6 +81,7 @@ class UploadRepositoryServiceProvider extends ServiceProvider
             HelpQuestionRepository::class => HelpQuestionRepositoryImpl::class,
             NotificationEntityRepository::class => NotificationEntityRepositoryImpl::class,
             MaeEmpresaRepository::class => MaeEmpresaRepositoryImpl::class,
+            VwAuraCreditoSocioRepository::class => VwAuraCreditoSocioRepositoryImpl::class,
 
             //all services map
             UserService::class => UserServiceImpl::class,

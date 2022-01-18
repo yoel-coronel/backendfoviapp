@@ -29,4 +29,9 @@ class NotificationEntityServiceImpl implements NotificationEntityService
     {
         return $this->notificationEntityRepository->misNotificaciones($personaId);
     }
+
+    public function misAllNotificaciones($personaId): Collection
+    {
+        return $this->notificationEntityRepository->misAllNotificaciones($personaId);
+    }
 }

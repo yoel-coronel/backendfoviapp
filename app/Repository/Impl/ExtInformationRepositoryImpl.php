@@ -6,6 +6,7 @@ use App\Models\Oracle\ExtInformacion;
 use App\Models\Oracle\MaePersona;
 use App\Models\User;
 use App\Repository\ExtInformationRepository;
+use App\Repository\MaeUbigeoRepository;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -14,14 +15,17 @@ use Illuminate\Support\Collection;
 class ExtInformationRepositoryImpl implements ExtInformationRepository
 {
     protected $model;
+
+    protected $ubigeo;
     /**
      * UserRepository constructor.
      *
      * @param User $user
      */
-    public function __construct(ExtInformacion $extInformacion)
+    public function __construct(ExtInformacion $extInformacion, MaeUbigeoRepository $maeUbigeoRepository)
     {
         $this->model = $extInformacion;
+        $this->ubigeo = $maeUbigeoRepository;
     }
 
     public function all()
@@ -199,6 +203,8 @@ class ExtInformationRepositoryImpl implements ExtInformationRepository
     }
 
     protected function getAdministrado(array $data){
+        $ubigeo = $this->ubigeo->findUbigeo($data['ubig_domi_per']);
+
             return [
                 'id' => (int) $data['iden_exte_inf'],
                 'nroIdentidad' => $data['nume_iden_per'],
@@ -209,8 +215,8 @@ class ExtInformationRepositoryImpl implements ExtInformationRepository
                 'email' => $data['corr_prin_per'],
                 'celular' => $data['celu_prin_per'],
                 'telfijo' => $data['tlfn_prin_per'],
-                'nroDpt' => null,
-                'nroProv' => null,
+                'nroDpt' => $ubigeo['depa_id'],
+                'nroProv' => $ubigeo['prov_id'],
                 'nroDis' => $data['ubig_domi_per'],
                 'datoDom' => $data['dire_domi_per'],
                 'fecNac' => isset($data['fech_naci_per'])?Carbon::parse($data['fech_naci_per'])->format('Y-m-d'):null,

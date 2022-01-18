@@ -5,7 +5,9 @@ namespace App\Services\Impl;
 use App\Repository\MaeEntidaddetRepository;
 use App\Repository\MaeProcesoRepository;
 use App\Repository\TrmTramiteRepository;
+use App\Repository\VwAuraCreditoSocioRepository;
 use App\Services\TramiteService;
+use Illuminate\Support\Collection;
 
 
 class TramiteServiceImpl implements TramiteService
@@ -13,13 +15,20 @@ class TramiteServiceImpl implements TramiteService
     protected $trmTramiteRepository;
     protected $maeProcesoRepository;
     protected $maeEntidaddetRepository;
+    /**
+     * @var VwAuraCreditoSocioRepository
+     */
+    private $auraCreditoSocioRepository;
+
     public function __construct(TrmTramiteRepository $trmTramiteRepository,
                                 MaeProcesoRepository $maeProcesoRepository,
-                                MaeEntidaddetRepository $maeEntidaddetRepository)
+                                MaeEntidaddetRepository $maeEntidaddetRepository,
+                                VwAuraCreditoSocioRepository $auraCreditoSocioRepository)
     {
         $this->trmTramiteRepository = $trmTramiteRepository;
         $this->maeProcesoRepository = $maeProcesoRepository;
         $this->maeEntidaddetRepository = $maeEntidaddetRepository;
+        $this->auraCreditoSocioRepository = $auraCreditoSocioRepository;
     }
 
     public function porcentajeTramites($persona_id)
@@ -53,5 +62,47 @@ class TramiteServiceImpl implements TramiteService
         });
 
 
+    }
+
+    public function findTramite($trmId)
+    {
+        $item = $this->auraCreditoSocioRepository->findTramite($trmId);
+
+        if($item){
+            return [
+                'credito' => [
+                    'dni'=>optional($item)['nrodni'],
+                    'credito_id'=>optional($item)['iden_cred_crd'],
+                    'persona_id'=>optional($item)['iden_pera_trm'],
+                    'name_tramite'=>optional($item)['nomb_tram_trm'],
+                    'expediente_id'=>optional($item)['iden_expe_trm'],
+                    'expediente_id'=>optional($item)['iden_expe_trm'],
+                    'impo_solitado'=>optional($item)['impo_soli_crd'],
+                    'saldo_vencido'=>optional($item)['sald_venc_crd'],
+                    'saldo_vencido'=>optional($item)['sald_venc_crd'],
+                    'monto_cancelatorio'=>optional($item)['mont_canc'],
+                    'monto_cancelatorio'=>optional($item)['mont_canc'],
+                    'nucu_paga_crd'=>optional($item)['nucu_paga_crd'],
+                    'nucu_venc_crd'=>optional($item)['nucu_venc_crd'],
+                    'nucu_venc_crd'=>optional($item)['nucu_venc_crd'],
+                    'name_producto'=>optional($item)['nomb_prod_prd'],
+                    'moneda'=>optional($item)['moncrd'],
+                    'estado'=>optional($item)['estcrd'],
+                    'persona' =>[
+                        'apellido_paterno' =>optional(optional($item)['persona'])['pel_pate_per,'],
+                        'apellido_materno'=>optional(optional($item)['persona'])['apel_mate_per'],
+                        'nombbres'=>optional(optional($item)['persona'])['nomb_pers_per'],
+                        'nompres_copletos'=>optional(optional($item)['persona'])['nomb_comp_per']
+                    ],
+                    'socio' =>[
+                        'codi_ccip_soc'=>optional(optional($item)['socio'])['codi_ccip_soc'],
+                        'codi_cdfi_soc'=>optional(optional($item)['socio'])['codi_cdfi_soc'],
+                        'codi_caja_soc'=>optional(optional($item)['socio'])['codi_caja_soc'],
+                        'codi_mpol_soc'=>optional(optional($item)['socio'])['codi_mpol_soc'],
+                    ]
+                ]
+            ];
+        }
+        return null;
     }
 }

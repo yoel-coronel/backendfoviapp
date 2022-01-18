@@ -33,4 +33,17 @@ class MaeUbigeoRepositoryImpl implements MaeUbigeoRepository
     {
         return  $this->model->where('flag_esta_ubi',1)->where('nive_ubig_ubi',3)->where('iden_ubip_ubi',$id)->select('iden_ubig_ubi','nomb_ubig_ubi')->OrderBy('iden_ubig_ubi','asc')->get();
     }
+
+    public function findUbigeo($dist_id)
+    {
+        $dist = $this->model->where('flag_esta_ubi',1)->where('iden_ubig_ubi',$dist_id)->select('iden_ubig_ubi','nomb_ubig_ubi','iden_ubip_ubi')->first();
+        $prov = $this->model->where('flag_esta_ubi',1)->where('iden_ubig_ubi',$dist->iden_ubip_ubi)->select('iden_ubig_ubi','nomb_ubig_ubi','iden_ubip_ubi')->first();
+        $depa = $this->model->where('flag_esta_ubi',1)->where('iden_ubig_ubi',$prov->iden_ubip_ubi)->select('iden_ubig_ubi','nomb_ubig_ubi','iden_ubip_ubi')->first();
+
+        return [
+            'dist_id'=> (string) optional($dist)['iden_ubig_ubi'],
+            'prov_id'=> (string)  optional($prov)['iden_ubig_ubi'],
+            'depa_id'=> (string) optional($depa)['iden_ubig_ubi']
+        ];
+    }
 }

@@ -19,7 +19,7 @@ class NotificationAuthController extends Controller
     }
     public function getMisNotificaiones(){
         $personaId = optional(auth()->user())->identifier;
-        return $this->notificationEntityService->misNotificaciones($personaId)->map(function ($item){
+        return $this->showAll($this->notificationEntityService->misNotificaciones($personaId)->map(function ($item){
             return [
                 "id" => $item->id,
                 "title"=> $item->title,
@@ -29,7 +29,22 @@ class NotificationAuthController extends Controller
                 "identifier"=> (int)$item->identifier,
                 "read_at"=> $item->read_at,
             ];
-        });
+        }));
+    }
+    public function getMisAllNotificaiones(){
+        $personaId = optional(auth()->user())->identifier;
+        return $this->showAll($this->notificationEntityService->misAllNotificaciones($personaId)->map(function ($item){
+                return [
+                    "id" => $item->id,
+                    "title"=> $item->title,
+                    "description"=> $item->description,
+                    'file' => $item->path?$this->uploadService->loadDocument($item->path):null,
+                    "url"=> $item->url,
+                    "identifier"=> (int)$item->identifier,
+                    "read_at"=> $item->read_at,
+                ];
+            })
+        );
     }
     public function readAuth($id){
         $data = ['read_at'=>now()];

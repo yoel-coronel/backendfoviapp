@@ -67,6 +67,7 @@ class NotificationController extends Controller
             'identifier' =>'required|numeric',
             'token' =>'required'
         ];
+
         $validated = Validator::make($request->all(),$rules);
 
         if ($validated->fails()){
@@ -85,7 +86,6 @@ class NotificationController extends Controller
         }
 
         $data['path'] = $path;
-
         return $this->showAll(
             collect(
                 $this->notificationEntityService->guestUpdate($data,$id)

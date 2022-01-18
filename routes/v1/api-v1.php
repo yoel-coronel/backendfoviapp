@@ -116,4 +116,5 @@ Route::group(['middleware' => ['jwt.verify'],
     'prefix' => 'notifications'], function() {
     Route::get('notification',[NotificationAuthController::class,'getMisNotificaiones']);
     Route::put('notification/{id}',[NotificationAuthController::class,'readAuth']);
+    Route::get('notifications',[NotificationAuthController::class,'getMisAllNotificaiones']);
 });
