@@ -33,7 +33,7 @@ return [
     |
     */
 
-    'mailers' => [
+    'smailer' => [
         'smtp' => [
             'transport' => 'smtp',
             'host' => env('MAIL_HOST', 'smtp.mailgun.org'),

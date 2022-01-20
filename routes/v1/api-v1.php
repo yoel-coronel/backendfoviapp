@@ -111,6 +111,10 @@ Route::group(['middleware' => ['jwt.verify'],
     Route::get('questions',[HelpQuestionsController::class,'index']);
     Route::post('questions',[HelpQuestionsController::class,'store']);
 });
+Route::group(['middleware' => ['jwt.verify'],
+    'prefix' => 'emails'], function() {
+    Route::get('credentials',[\App\Http\Controllers\Mail\MailController::class,'getCredentialsEmails']);
+});
 
 Route::group(['middleware' => ['jwt.verify'],
     'prefix' => 'notifications'], function() {
