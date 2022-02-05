@@ -44,8 +44,6 @@ class PasswordResetRequestController extends Controller
 
         if($isOtherToken)
             return $isOtherToken->token;
-
-
         $token = Str::random(80);;
         $this->storeToken($token, $email);
         return $token;

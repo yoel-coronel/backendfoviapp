@@ -25,6 +25,8 @@ class UserResource extends JsonResource
             'edad' => $this->resource->age(Carbon::parse(($this->resource->person->fech_naci_per))),
             'grado' =>$this->resource->grado($this->resource->socio->codi_grad_soc),
             'dni' =>$this->resource->person->nume_iden_per,
+            'is_notification' => $this->resource->is_notificacion($this->resource->identifier),
+            'count_notification' => $this->resource->countNoti($this->resource->identifier),
         ];
     }
 }

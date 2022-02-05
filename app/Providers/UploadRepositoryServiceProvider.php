@@ -17,6 +17,7 @@ use App\Repository\Impl\MaeEntidaddetRepositoryImpl;
 use App\Repository\Impl\MaeProcesoRepositoryImpl;
 use App\Repository\Impl\MaeUbigeoRepositoryImpl;
 use App\Repository\Impl\NotificationEntityRepositoryImpl;
+use App\Repository\Impl\QueryMigrateMarcacionRepositoryImpl;
 use App\Repository\Impl\RecAporteRepositoryImpl;
 use App\Repository\Impl\TrmTramiteRepositoryImpl;
 use App\Repository\Impl\UploadDocumentRepositoryImpl;
@@ -27,6 +28,7 @@ use App\Repository\MaeEntidaddetRepository;
 use App\Repository\MaeProcesoRepository;
 use App\Repository\MaeUbigeoRepository;
 use App\Repository\NotificationEntityRepository;
+use App\Repository\QueryMigrateMarcacionRepository;
 use App\Repository\RecAporteRepository;
 use App\Repository\TrmTramiteRepository;
 use App\Repository\UploadDocumentRepository;
@@ -43,12 +45,14 @@ use App\Services\Impl\ExtInformationServiceImpl;
 use App\Services\Impl\FileEntityServiceImpl;
 use App\Services\Impl\HelpQuestionServiceImpl;
 use App\Services\Impl\NotificationEntityServiceImpl;
+use App\Services\Impl\queryMigrateSqlOracleServiceImpl;
 use App\Services\Impl\RecursosServiceImpl;
 use App\Services\Impl\SimulationServiceImpl;
 use App\Services\Impl\TramiteServiceImpl;
 use App\Services\Impl\UploadServiceImpl;
 use App\Services\Impl\UserServiceImpl;
 use App\Services\NotificationEntityService;
+use App\Services\QueryMigrateSqlOracleService;
 use App\Services\RecursosService;
 use App\Services\SimulationService;
 use App\Services\TramiteService;
@@ -82,6 +86,7 @@ class UploadRepositoryServiceProvider extends ServiceProvider
             NotificationEntityRepository::class => NotificationEntityRepositoryImpl::class,
             MaeEmpresaRepository::class => MaeEmpresaRepositoryImpl::class,
             VwAuraCreditoSocioRepository::class => VwAuraCreditoSocioRepositoryImpl::class,
+            QueryMigrateMarcacionRepository::class => QueryMigrateMarcacionRepositoryImpl::class,
 
             //all services map
             UserService::class => UserServiceImpl::class,
@@ -95,6 +100,7 @@ class UploadRepositoryServiceProvider extends ServiceProvider
             FileEntityService::class => FileEntityServiceImpl::class,
             HelpQuestionService::class => HelpQuestionServiceImpl::class,
             NotificationEntityService::class => NotificationEntityServiceImpl::class,
+            QueryMigrateSqlOracleService::class => QueryMigrateSqlOracleServiceImpl::class,
         ];
         foreach ($toBinds as $interface => $implementation) {
             $this->app->bind($interface, $implementation);

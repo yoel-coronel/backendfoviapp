@@ -21,6 +21,7 @@ class RecAporteRepositoryImpl implements RecAporteRepository
             ->where('anio_cobr_apo',$year)
             ->where('iden_pers_per',$persona_id)
             ->where('tipo_apor_apo',1)
+            ->where('flag_esta_apo',1)
             ->groupBy('anio_cobr_apo')
             ->get();
     }
@@ -31,6 +32,7 @@ class RecAporteRepositoryImpl implements RecAporteRepository
             ->where('anio_cobr_apo',$year)
             ->where('iden_pers_per',$persona_id)
             ->where('tipo_apor_apo',1)
+            ->where('flag_esta_apo',1)
             ->groupBy('anio_cobr_apo','nmes_cobr_apo')
             ->orderBy('nmes_cobr_apo','asc')
             ->get();
@@ -41,6 +43,7 @@ class RecAporteRepositoryImpl implements RecAporteRepository
         return $this->model->select('anio_cobr_apo as anno','nmes_cobr_apo as mes', DB::raw('SUM(impo_cobr_apo) as total'))
             ->where('iden_pers_per',$persona_id)
             ->where('tipo_apor_apo',1)
+            ->where('flag_esta_apo',1)
             ->groupBy('anio_cobr_apo','nmes_cobr_apo')
             ->orderBy('anio_cobr_apo','asc')
             ->orderBy('nmes_cobr_apo','asc')
@@ -53,6 +56,7 @@ class RecAporteRepositoryImpl implements RecAporteRepository
             ->where('anio_cobr_apo',$year)
             ->where('iden_pers_per',$persona_id)
             ->where('tipo_apor_apo',3)
+            ->where('flag_esta_apo',1)
             ->groupBy('anio_cobr_apo')
             ->get();
     }
@@ -62,6 +66,7 @@ class RecAporteRepositoryImpl implements RecAporteRepository
         return $this->model->select('anio_cobr_apo as anno','nmes_cobr_apo as mes', DB::raw('SUM(impo_cobr_apo) as total'))
             ->where('anio_cobr_apo',$year)
             ->where('iden_pers_per',$persona_id)
+            ->where('flag_esta_apo',1)
             ->where('tipo_apor_apo',3)
             ->groupBy('anio_cobr_apo','nmes_cobr_apo')
             ->orderBy('nmes_cobr_apo','asc')
@@ -72,6 +77,7 @@ class RecAporteRepositoryImpl implements RecAporteRepository
     {
         return $this->model->select('anio_cobr_apo as anno','nmes_cobr_apo as mes', DB::raw('SUM(impo_cobr_apo) as total'))
             ->where('iden_pers_per',$persona_id)
+            ->where('flag_esta_apo',1)
             ->where('tipo_apor_apo',3)
             ->groupBy('anio_cobr_apo','nmes_cobr_apo')
             ->orderBy('anio_cobr_apo','asc')

@@ -30,4 +30,17 @@ class EstadoDeCuentaController extends Controller
     public function getShowPagoDetail($creditId,$pagoId){
         return $this->showAll($this->creditoService->getCredPagoDetail($creditId,$pagoId));
     }
+
+    public function ultimosPagos($id){
+
+        return  $this->showAll(collect(
+            [
+                'credito' =>CreditoResource::make($this->creditoService->showCreditoAuth($id)),
+                'cuotas' => collect(optional($this->creditoService->getCredCuotas($id))['data'])
+                                    ->where('situation',"PAGADO")
+                                    ->sortByDesc('id')
+                                    ->take(10)
+                                    ->values()
+            ]));
+    }
 }

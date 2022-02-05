@@ -4,11 +4,13 @@ namespace App\Providers;
 
 use App\Events\ResolveRequestPassword;
 use App\Events\SendCodeForEmail;
+use App\Events\SendTokenSMS;
 use App\Events\WelcomeNewUser;
 use App\Listeners\ClearTokenResetPasswordVerification;
 use App\Listeners\SendCodeForEmailVerificationNotification;
 use App\Listeners\SendEmailWelcomeNewUserNotification;
 use App\Listeners\SendResetPasswordVerification;
+use App\Listeners\SendTokenTheVerificationSMS;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -34,7 +36,10 @@ class EventServiceProvider extends ServiceProvider
         ],
         ResolveRequestPassword::class =>[
             ClearTokenResetPasswordVerification::class,
-        ]
+        ],
+        SendTokenSMS::class =>[
+           SendTokenTheVerificationSMS::class,
+        ],
     ];
 
     /**

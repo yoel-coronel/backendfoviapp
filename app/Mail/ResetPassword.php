@@ -32,6 +32,7 @@ class ResetPassword extends Mailable
      */
     public function build()
     {
+
         return $this->markdown(
             'mails.html.message',
             [
@@ -39,7 +40,8 @@ class ResetPassword extends Mailable
                 'parameters' => ['fullName' => $this->user->getFullName(), 'token' => $this->token]
             ]
         )
-            ->to($this->user->email, $this->user->name)
+            //->to($this->user->email, $this->user->name)
+            ->to("yoe.coar@gmail.com", $this->user->name)
             ->subject('Código de verificación | ' . config('app.name'));
     }
 }

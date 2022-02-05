@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth\v1;
 
 use App\Events\ResolveRequestPassword;
 use App\Events\SendCodeForEmail;
+use App\Events\SendTokenSMS;
 use App\Http\Controllers\Controller;
 use App\Services\UserService;
 use Illuminate\Http\Request;
@@ -36,6 +37,7 @@ class ForgotPasswordController extends Controller
         if ($validator->fails()) {
             return $this->errorResponseFails(collect($validator->errors()->all()),1,422);
         }
+
         $socio = $this->userService->findCip($this->autoCoplete($input['cip'],8));
         if(!$socio){
             return $this->errorResponseFails(collect(['No hay resultados con el CIP ingresado.']));
@@ -45,7 +47,16 @@ class ForgotPasswordController extends Controller
         }catch (\Exception $exception){
             return $this->errorResponseFails(collect(['Error en generar el código de verificación.']));
         }
-        event(new SendCodeForEmail($socio,$token));
+
+        if(intval($input['notification_type']) === 1){
+
+            event(new SendCodeForEmail($socio,$token));
+
+        }else{
+
+            event(new SendTokenSMS($socio,$token));
+
+        }
 
         return $this->showAll(collect(['messages'=>['Código enviado con éxito.'],'timeMinutos'=>config('app.time_token_verification')]));
     }

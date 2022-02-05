@@ -88,4 +88,33 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasOne(MaeSocio::class, 'iden_pers_per', 'identifier')->where('flag_esta_soc','<>',0);
     }
+    public function is_notificacion($identifier){
+
+        $not = NotificationEntity::where('is_active',1)->where('identifier',$identifier)->whereNull('read_at')->get();
+
+        if ($not){
+
+            return  $not->count()?true:false;
+
+        }else{
+
+            return false;
+
+        }
+
+    }
+    public function countNoti($identifier){
+
+        $not = NotificationEntity::where('is_active',1)->where('identifier',$identifier)->whereNull('read_at')->get();
+
+        if (count($not)>0){
+
+            return count($not);
+
+        }else{
+            return 0;
+
+        }
+
+    }
 }

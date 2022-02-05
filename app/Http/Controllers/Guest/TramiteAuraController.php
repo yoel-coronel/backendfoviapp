@@ -48,8 +48,6 @@ class TramiteAuraController extends Controller
 
         }
 
-
-
     }
     
 }

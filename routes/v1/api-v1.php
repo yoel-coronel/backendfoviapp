@@ -84,6 +84,7 @@ Route::group(['middleware' => ['jwt.verify'],
     Route::get('estados-de-cuenta',[EstadoDeCuentaController::class,'getEstadosCuenta']);
     Route::get('estados-de-cuenta/{id}',[EstadoDeCuentaController::class,'show']);
     Route::get('estados-de-cuenta/{CreditId}/{pagoId}',[EstadoDeCuentaController::class,'getShowPagoDetail']);
+    Route::get('estados-de-cuenta-ultimos-movimientos/{id}', [EstadoDeCuentaController::class,'ultimosPagos']);
 
 });
 Route::group(['middleware' => ['jwt.verify'],

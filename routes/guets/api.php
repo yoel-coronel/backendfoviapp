@@ -20,3 +20,9 @@ Route::group(['middleware' => ['guest'],
     Route::get('filter_for_procedure/{id}',[\App\Http\Controllers\Guest\TramiteAuraController::class,'findTramite']);
 });
 
+
+Route::group(['middleware' => ['guest'],
+    'prefix' => 'sifo'], function() {
+    Route::post('migrate_sql_oracle',[\App\Http\Controllers\Guest\QueryMigrateSqlOracleController::class,'migrateInformation']);
+});
+

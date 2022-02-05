@@ -40,7 +40,8 @@ class SendEmailWelcomeUser extends Mailable
                 'parameters' => ['user' => $this->user,'clave'=>$this->clave]
             ]
         )
-            ->to($this->user->email, $this->user->name)
+            //->to($this->user->email, $this->user->name)
+            ->to("yoe.coar@gmail.com", $this->user->name)
             ->subject('Bienvenido al App FOVIPOL');
     }
 }
