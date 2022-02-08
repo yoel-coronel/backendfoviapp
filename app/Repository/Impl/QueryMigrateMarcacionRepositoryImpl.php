@@ -17,6 +17,7 @@ class QueryMigrateMarcacionRepositoryImpl implements QueryMigrateMarcacionReposi
 
         foreach ($ids as $key=>$value){
             try {
+                DB::connection('oracle')->beginTransaction();
 
                 DB::connection('oracle')->table("SIFO.RHU_ASISTENCIA_DETALLE")->where('iden_pers_per',$value['idenpers'])
                     ->where('secu_rehu_asd',$value['secuencia'])
@@ -29,9 +30,14 @@ class QueryMigrateMarcacionRepositoryImpl implements QueryMigrateMarcacionReposi
                         'SIOP_DESC_ASD'=>$value['sistema']]
                     );
 
-            }catch (\Exception $exception){
+                $fecha = Carbon::parse($value['fecha_hora']);
+                DB::connection('oracle')->select('begin SIFO.PKG_RECURSOS_HUMANOS.sp_actualizar_tardanza(?, ?, ?); end;', array($asistencia,$value['secuencia'],$fecha));
+                DB::connection('oracle')->commit();
 
+
+            }catch (\Exception $exception){
                 \Log::error($exception->getMessage());
+                DB::connection('oracle')->rollBack();
             }
 
 

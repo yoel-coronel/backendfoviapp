@@ -16,6 +16,7 @@ use App\Repository\Impl\MaeEmpresaRepositoryImpl;
 use App\Repository\Impl\MaeEntidaddetRepositoryImpl;
 use App\Repository\Impl\MaeProcesoRepositoryImpl;
 use App\Repository\Impl\MaeUbigeoRepositoryImpl;
+use App\Repository\Impl\MovimientosRepositoryImpl;
 use App\Repository\Impl\NotificationEntityRepositoryImpl;
 use App\Repository\Impl\QueryMigrateMarcacionRepositoryImpl;
 use App\Repository\Impl\RecAporteRepositoryImpl;
@@ -27,6 +28,7 @@ use App\Repository\MaeEmpresaRepository;
 use App\Repository\MaeEntidaddetRepository;
 use App\Repository\MaeProcesoRepository;
 use App\Repository\MaeUbigeoRepository;
+use App\Repository\MovimientosRepository;
 use App\Repository\NotificationEntityRepository;
 use App\Repository\QueryMigrateMarcacionRepository;
 use App\Repository\RecAporteRepository;
@@ -87,6 +89,7 @@ class UploadRepositoryServiceProvider extends ServiceProvider
             MaeEmpresaRepository::class => MaeEmpresaRepositoryImpl::class,
             VwAuraCreditoSocioRepository::class => VwAuraCreditoSocioRepositoryImpl::class,
             QueryMigrateMarcacionRepository::class => QueryMigrateMarcacionRepositoryImpl::class,
+            MovimientosRepository::class => MovimientosRepositoryImpl::class,
 
             //all services map
             UserService::class => UserServiceImpl::class,

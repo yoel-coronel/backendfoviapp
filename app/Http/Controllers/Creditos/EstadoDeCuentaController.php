@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Creditos;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CreditoCollection;
 use App\Http\Resources\CreditoResource;
+use App\Http\Resources\MovimientosCollection;
 use App\Services\CreditoService;
 use Illuminate\Http\Request;
 
@@ -42,5 +43,11 @@ class EstadoDeCuentaController extends Controller
                                     ->take(10)
                                     ->values()
             ]));
+    }
+    public function ultimosMovimientos(){
+
+        $idenpers = optional(auth()->user())->identifier;
+        $numFilas = 10;
+        return  $this->showAll(collect(MovimientosCollection::make($this->creditoService->getUltimosMovimientos($idenpers,$numFilas))));
     }
 }

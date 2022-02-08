@@ -87,6 +87,12 @@ Route::group(['middleware' => ['jwt.verify'],
     Route::get('estados-de-cuenta-ultimos-movimientos/{id}', [EstadoDeCuentaController::class,'ultimosPagos']);
 
 });
+
+Route::group(['middleware' => ['jwt.verify'],
+    'prefix' => 'ultimos'], function() {
+    Route::get('movimientos',[EstadoDeCuentaController::class,'ultimosMovimientos']);
+});
+
 Route::group(['middleware' => ['jwt.verify'],
     'prefix' => 'uploads'], function() {
     Route::get('uploads-document',[UploadDocumentsController::class,'index']);

@@ -8,4 +8,5 @@ interface CreditoService
     public function showCreditoAuth($id);
     public function getCredCuotas($creditId);
     public function getCredPagoDetail($creditId, $pagoId);
+    public function getUltimosMovimientos($idenpers,$numFilas);
 }
