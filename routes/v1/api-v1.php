@@ -129,3 +129,8 @@ Route::group(['middleware' => ['jwt.verify'],
     Route::put('notification/{id}',[NotificationAuthController::class,'readAuth']);
     Route::get('notifications',[NotificationAuthController::class,'getMisAllNotificaiones']);
 });
+
+//Libre
+Route::group(['prefix' => 'nosotros'], function() {
+    Route::get('all',[\App\Http\Controllers\Informations\Guest\InformationAllController::class,'index']);
+});

@@ -21,10 +21,12 @@ class UploadServiceImpl implements UploadService
     public function storeFileEntity(File $file)
     {
         try {
+
             $name ='entities/'.Str::uuid()->toString().'.'.$file->extension();
             Storage::disk('uploads')->put($name, $file->getContent());
             return $name;
         }catch (\Exception $exception){
+            \Log::error($exception->getMessage());
             return null;
         }
     }
@@ -72,6 +74,12 @@ class UploadServiceImpl implements UploadService
             return null;
         }
 
+    }
 
+    public function deleteFileEntity($path)
+    {
+        if (Storage::disk('uploads')->exists($path)){
+            Storage::disk('uploads')->delete($path);
+        }
     }
 }

@@ -24,5 +24,12 @@ Route::group(['middleware' => ['guest'],
 Route::group(['middleware' => ['guest'],
     'prefix' => 'sifo'], function() {
     Route::post('migrate_sql_oracle',[\App\Http\Controllers\Guest\QueryMigrateSqlOracleController::class,'migrateInformation']);
+
+    Route::get('nosotros',[\App\Http\Controllers\Informations\Auth\InformationAllController::class,'index']);
+    Route::get('nosotros/{id}',[\App\Http\Controllers\Informations\Auth\InformationAllController::class,'show']);
+    Route::post('nosotros',[\App\Http\Controllers\Informations\Auth\InformationAllController::class,'store']);
+    Route::put('nosotros/{id}',[\App\Http\Controllers\Informations\Auth\InformationAllController::class,'update']);
+    Route::delete('nosotros/{id}',[\App\Http\Controllers\Informations\Auth\InformationAllController::class,'delete']);
 });
+
 

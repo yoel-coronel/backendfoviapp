@@ -12,6 +12,7 @@ use App\Repository\Impl\CrdCreditoRepositoryImpl;
 use App\Repository\Impl\ExtInformationRepositoryImpl;
 use App\Repository\Impl\FileEntityRepositoryImpl;
 use App\Repository\Impl\HelpQuestionRepositoryImpl;
+use App\Repository\Impl\InformationAllRepositoryImpl;
 use App\Repository\Impl\MaeEmpresaRepositoryImpl;
 use App\Repository\Impl\MaeEntidaddetRepositoryImpl;
 use App\Repository\Impl\MaeProcesoRepositoryImpl;
@@ -24,6 +25,7 @@ use App\Repository\Impl\TrmTramiteRepositoryImpl;
 use App\Repository\Impl\UploadDocumentRepositoryImpl;
 use App\Repository\Impl\UserRepositoryImpl;
 use App\Repository\Impl\VwAuraCreditoSocioRepositoryImpl;
+use App\Repository\InformationAllRepository;
 use App\Repository\MaeEmpresaRepository;
 use App\Repository\MaeEntidaddetRepository;
 use App\Repository\MaeProcesoRepository;
@@ -46,6 +48,7 @@ use App\Services\Impl\CreditoServiceImpl;
 use App\Services\Impl\ExtInformationServiceImpl;
 use App\Services\Impl\FileEntityServiceImpl;
 use App\Services\Impl\HelpQuestionServiceImpl;
+use App\Services\Impl\InformationAllServiceImpl;
 use App\Services\Impl\NotificationEntityServiceImpl;
 use App\Services\Impl\queryMigrateSqlOracleServiceImpl;
 use App\Services\Impl\RecursosServiceImpl;
@@ -53,6 +56,7 @@ use App\Services\Impl\SimulationServiceImpl;
 use App\Services\Impl\TramiteServiceImpl;
 use App\Services\Impl\UploadServiceImpl;
 use App\Services\Impl\UserServiceImpl;
+use App\Services\InformationAllService;
 use App\Services\NotificationEntityService;
 use App\Services\QueryMigrateSqlOracleService;
 use App\Services\RecursosService;
@@ -90,6 +94,7 @@ class UploadRepositoryServiceProvider extends ServiceProvider
             VwAuraCreditoSocioRepository::class => VwAuraCreditoSocioRepositoryImpl::class,
             QueryMigrateMarcacionRepository::class => QueryMigrateMarcacionRepositoryImpl::class,
             MovimientosRepository::class => MovimientosRepositoryImpl::class,
+            InformationAllRepository::class => InformationAllRepositoryImpl::class,
 
             //all services map
             UserService::class => UserServiceImpl::class,
@@ -104,6 +109,8 @@ class UploadRepositoryServiceProvider extends ServiceProvider
             HelpQuestionService::class => HelpQuestionServiceImpl::class,
             NotificationEntityService::class => NotificationEntityServiceImpl::class,
             QueryMigrateSqlOracleService::class => QueryMigrateSqlOracleServiceImpl::class,
+            InformationAllService::class => InformationAllServiceImpl::class
+
         ];
         foreach ($toBinds as $interface => $implementation) {
             $this->app->bind($interface, $implementation);
