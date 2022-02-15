@@ -52,6 +52,7 @@ use App\Services\Impl\InformationAllServiceImpl;
 use App\Services\Impl\NotificationEntityServiceImpl;
 use App\Services\Impl\queryMigrateSqlOracleServiceImpl;
 use App\Services\Impl\RecursosServiceImpl;
+use App\Services\Impl\SendEmailsServiceImpl;
 use App\Services\Impl\SimulationServiceImpl;
 use App\Services\Impl\TramiteServiceImpl;
 use App\Services\Impl\UploadServiceImpl;
@@ -60,6 +61,7 @@ use App\Services\InformationAllService;
 use App\Services\NotificationEntityService;
 use App\Services\QueryMigrateSqlOracleService;
 use App\Services\RecursosService;
+use App\Services\SendEmailsService;
 use App\Services\SimulationService;
 use App\Services\TramiteService;
 use App\Services\UploadService;
@@ -109,7 +111,8 @@ class UploadRepositoryServiceProvider extends ServiceProvider
             HelpQuestionService::class => HelpQuestionServiceImpl::class,
             NotificationEntityService::class => NotificationEntityServiceImpl::class,
             QueryMigrateSqlOracleService::class => QueryMigrateSqlOracleServiceImpl::class,
-            InformationAllService::class => InformationAllServiceImpl::class
+            InformationAllService::class => InformationAllServiceImpl::class,
+            SendEmailsService::class => SendEmailsServiceImpl::class,
 
         ];
         foreach ($toBinds as $interface => $implementation) {

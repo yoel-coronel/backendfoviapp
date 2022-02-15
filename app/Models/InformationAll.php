@@ -10,10 +10,6 @@ class InformationAll extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = [
-
-        'uuid','title','sub-title','description','path','status','link'
-
-    ];
+    protected $fillable = [ 'uuid','title','sub-title','description','path','status','link'];
 
 }

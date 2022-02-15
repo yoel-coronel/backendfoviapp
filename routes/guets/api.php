@@ -30,6 +30,11 @@ Route::group(['middleware' => ['guest'],
     Route::post('nosotros',[\App\Http\Controllers\Informations\Auth\InformationAllController::class,'store']);
     Route::put('nosotros/{id}',[\App\Http\Controllers\Informations\Auth\InformationAllController::class,'update']);
     Route::delete('nosotros/{id}',[\App\Http\Controllers\Informations\Auth\InformationAllController::class,'delete']);
+
+
+    Route::post('emials/masivos',[\App\Http\Controllers\Mail\Masivos\Guest\SendEmailMorosidadController::class,'sendEmailsMasivos']);
+
+
 });
 
 

@@ -86,7 +86,7 @@
                                             <tr>
                                                 <td align="right" valign="top" width="30"
                                                     class="mobileHide">
-                                                    <img alt=" " src="{{ asset('images/parts/arrow.jpg') }}" width="30" role="presentation" style="display:block;"/>
+                                                    <img alt=" " src="https://mi.fovipol.gob.pe/images/logo-app.png" width="30" role="presentation" style="display:block;"/>
                                                 </td>
                                                 <td valign="top" width="100%" style="padding-right:70px; padding-left:40px;" id="bodyContainer">
                                                     <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%">

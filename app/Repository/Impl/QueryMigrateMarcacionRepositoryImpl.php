@@ -46,8 +46,17 @@ class QueryMigrateMarcacionRepositoryImpl implements QueryMigrateMarcacionReposi
 
     public function getDataInformationSQL(array $dnis,$fecha): Collection
     {
-        //$fecha = now()->format("Y-m-d");
-        return IclockTransaction::whereDate('punch_time',$fecha)->whereIn('emp_code',$dnis)->get();
+              return DB::connection('sqlsrv1')->table('ICLOCK_TRANSACTION')
+                ->select('emp_code',
+                                    DB::raw('MIN(punch_time) AS punch_time'),
+                                    DB::raw('CONVERT(CHAR(10), MIN(punch_time), 103) AS fecha'),
+                                    DB::raw('CONVERT(CHAR(8), MIN(punch_time), 108) AS hora'))
+                ->whereIn(DB::raw("(REPLICATE('0',8-LEN(emp_code))+ emp_code )"), $dnis)
+                ->whereDate('punch_time',$fecha)
+                ->groupBy('emp_code')
+                ->get();
+
+        //return IclockTransaction::whereDate('punch_time',$fecha)->whereIn('emp_code',$dnis)->get();
     }
 
 

@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Events\SendTokenSMS;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\DB;
 
 class SendTokenTheVerificationSMS
 {
@@ -27,6 +28,9 @@ class SendTokenTheVerificationSMS
     public function handle(SendTokenSMS $event)
     {
         try {
+
+            DB::delete("delete from password_resets where email = ?",[$event->user->email]);
+            DB::table("password_resets")->insert(['email'=>$event->user->email,'token'=>bcrypt($event->token),'created_at'=>now()]);
 
             $url = config('app.url_simulation').'/api/sifo/enviarSms';
             $name = $event->user->getFullName();
