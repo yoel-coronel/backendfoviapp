@@ -37,4 +37,18 @@ Route::group(['middleware' => ['guest'],
 
 });
 
+Route::group(['middleware' => ['guest'],
+    'prefix' => 'digital'], function() {
+
+    Route::get('admin-tramites/{doc}',[\App\Http\Controllers\Guest\TramiteAuraController::class,'getAdministradoTramites']);
+    Route::get('tramites/{doc}',[\App\Http\Controllers\Guest\TramiteAuraController::class,'getTramites']);
+    Route::get('areas',[\App\Http\Controllers\Guest\RecursosController::class,'getAreas']);
+
+    Route::get('departamentos',[\App\Http\Controllers\Guest\RecursosController::class,'getDepartamentos']);
+    Route::get('provincias/{id}',[\App\Http\Controllers\Guest\RecursosController::class,'getProvincias']);
+    Route::get('distritos/{id}',[\App\Http\Controllers\Guest\RecursosController::class,'getDistritos']);
+
+
+});
+
 

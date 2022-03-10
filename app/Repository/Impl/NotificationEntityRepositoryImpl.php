@@ -51,12 +51,14 @@ class NotificationEntityRepositoryImpl implements \App\Repository\NotificationEn
         return $this->model->where('is_active',1)
                             ->where('identifier',$personaId)
                             ->whereNull('read_at')
+                            ->orderBy('created_at','desc')
                             ->get();
     }
     public function misAllNotificaciones($personaId): Collection
     {
         return $this->model->where('is_active',1)
             ->where('identifier',$personaId)
-            ->take(15)->get();
+            ->orderBy('created_at','desc')
+            ->take(30)->get();
     }
 }

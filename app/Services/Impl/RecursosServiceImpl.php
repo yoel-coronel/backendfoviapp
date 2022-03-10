@@ -2,6 +2,7 @@
 
 namespace App\Services\Impl;
 
+use App\Repository\MaeAreaRepository;
 use App\Repository\MaeEmpresaRepository;
 use App\Repository\MaeEntidaddetRepository;
 use App\Repository\MaeUbigeoRepository;
@@ -13,16 +14,22 @@ class RecursosServiceImpl implements RecursosService
     protected $maeEntidaddetRepository;
     protected $ubigeoRepository;
     protected $maeEmpresaRepository;
+    /**
+     * @var MaeAreaRepository
+     */
+    private $maeAreaRepository;
 
     public function __construct(
         MaeEntidaddetRepository $maeEntidaddetRepository,
         MaeUbigeoRepository $ubigeoRepository,
-        MaeEmpresaRepository $maeEmpresaRepository
+        MaeEmpresaRepository $maeEmpresaRepository,
+        MaeAreaRepository $maeAreaRepository
     )
     {
         $this->maeEntidaddetRepository = $maeEntidaddetRepository;
         $this->ubigeoRepository = $ubigeoRepository;
         $this->maeEmpresaRepository = $maeEmpresaRepository;
+        $this->maeAreaRepository = $maeAreaRepository;
     }
 
     public function getConstantEntityForCode($code)
@@ -102,5 +109,10 @@ class RecursosServiceImpl implements RecursosService
                 'ruc' => $item->nume_ruc_emp
             ];
         });
+    }
+
+    public function getAreas(): Collection
+    {
+        return $this->maeAreaRepository->getAreas();
     }
 }

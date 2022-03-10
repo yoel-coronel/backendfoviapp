@@ -105,4 +105,14 @@ class TramiteServiceImpl implements TramiteService
         }
         return null;
     }
+
+    public function getAdministradoCipOrDNI($doc)
+    {
+        return $this->trmTramiteRepository->getAdministradoCipOrDNI($doc);
+    }
+
+    public function getTramites($itenpers)
+    {
+        return $this->trmTramiteRepository->getTramites($itenpers);
+    }
 }

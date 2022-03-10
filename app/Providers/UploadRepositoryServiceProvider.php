@@ -13,6 +13,7 @@ use App\Repository\Impl\ExtInformationRepositoryImpl;
 use App\Repository\Impl\FileEntityRepositoryImpl;
 use App\Repository\Impl\HelpQuestionRepositoryImpl;
 use App\Repository\Impl\InformationAllRepositoryImpl;
+use App\Repository\Impl\MaeAreaRepositoryImpl;
 use App\Repository\Impl\MaeEmpresaRepositoryImpl;
 use App\Repository\Impl\MaeEntidaddetRepositoryImpl;
 use App\Repository\Impl\MaeProcesoRepositoryImpl;
@@ -26,6 +27,7 @@ use App\Repository\Impl\UploadDocumentRepositoryImpl;
 use App\Repository\Impl\UserRepositoryImpl;
 use App\Repository\Impl\VwAuraCreditoSocioRepositoryImpl;
 use App\Repository\InformationAllRepository;
+use App\Repository\MaeAreaRepository;
 use App\Repository\MaeEmpresaRepository;
 use App\Repository\MaeEntidaddetRepository;
 use App\Repository\MaeProcesoRepository;
@@ -97,6 +99,7 @@ class UploadRepositoryServiceProvider extends ServiceProvider
             QueryMigrateMarcacionRepository::class => QueryMigrateMarcacionRepositoryImpl::class,
             MovimientosRepository::class => MovimientosRepositoryImpl::class,
             InformationAllRepository::class => InformationAllRepositoryImpl::class,
+            MaeAreaRepository::class => MaeAreaRepositoryImpl::class,
 
             //all services map
             UserService::class => UserServiceImpl::class,

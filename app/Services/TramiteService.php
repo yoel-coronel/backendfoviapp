@@ -8,5 +8,7 @@ interface TramiteService
 {
     public function porcentajeTramites($persona_id);
     public function findTramite($trmId);
+    public function getAdministradoCipOrDNI($doc);
+    public function getTramites($itenpers);
 
 }

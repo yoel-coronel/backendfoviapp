@@ -20,4 +20,5 @@ interface RecursosService
     public function getPTypeDoc();
     public function getTiposTramitesDig();
     public function getEmpresas():Collection;
+    public function getAreas():Collection;
 }
