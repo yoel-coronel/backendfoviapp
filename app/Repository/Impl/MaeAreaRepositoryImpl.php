@@ -19,6 +19,6 @@ class MaeAreaRepositoryImpl implements MaeAreaRepository
 
     public function getAreas():Collection
     {
-        return $this->maeArea->select('iden_area_are','desc_area_are')->where('flag_esa_are','<>',0)->get();
+        return $this->maeArea->select('iden_area_are','desc_area_are')->where('flag_esta_are','<>',0)->get();
     }
 }

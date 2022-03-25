@@ -90,6 +90,28 @@ class TramiteAuraController extends Controller
 
 
     }
+    public function getAdministrado(Request $request,$doc){
+        $rules = [
+            'token' =>'required'
+        ];
+
+        $validated = Validator::make($request->all(),$rules);
+
+        if ($validated->fails()){
+            return $this->errorResponseFails(collect($validated->errors()->all()));
+        }
+        if (!Hash::check($request->token, config('app.key_sifo'))){
+            return $this->errorResponseFails(collect(["Las credenciales no son correctas."]),1,401);
+        }
+
+        $admin = $this->service->getAdministradoCipOrDNI($doc);
+
+        if ($admin){
+            return $this->showAll(collect( $admin ) );
+        }
+
+        return $this->errorResponseFails(collect(["No se encontró resultados."]),1,401);
+    }
 
     public function getTramites(Request $request,$doc){
 

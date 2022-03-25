@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Repository\CrdCreditoCuotaRepository;
 use App\Repository\CrdCreditoRepository;
+use App\Repository\Digital\Impl\SolicitudRepositoryImpl;
+use App\Repository\Digital\SolicitudRepository;
 use App\Repository\ExtInformationRepository;
 use App\Repository\FileEntityRepository;
 use App\Repository\HelpQuestionRepository;
@@ -42,11 +44,13 @@ use App\Repository\UserRepository;
 use App\Repository\VwAuraCreditoSocioRepository;
 use App\Services\AporteService;
 use App\Services\CreditoService;
+use App\Services\DigitalService;
 use App\Services\ExtInformationService;
 use App\Services\FileEntityService;
 use App\Services\HelpQuestionService;
 use App\Services\Impl\AporteServiceImpl;
 use App\Services\Impl\CreditoServiceImpl;
+use App\Services\Impl\DigitalServiceImpl;
 use App\Services\Impl\ExtInformationServiceImpl;
 use App\Services\Impl\FileEntityServiceImpl;
 use App\Services\Impl\HelpQuestionServiceImpl;
@@ -100,6 +104,7 @@ class UploadRepositoryServiceProvider extends ServiceProvider
             MovimientosRepository::class => MovimientosRepositoryImpl::class,
             InformationAllRepository::class => InformationAllRepositoryImpl::class,
             MaeAreaRepository::class => MaeAreaRepositoryImpl::class,
+            SolicitudRepository::class => SolicitudRepositoryImpl::class,
 
             //all services map
             UserService::class => UserServiceImpl::class,
@@ -116,6 +121,7 @@ class UploadRepositoryServiceProvider extends ServiceProvider
             QueryMigrateSqlOracleService::class => QueryMigrateSqlOracleServiceImpl::class,
             InformationAllService::class => InformationAllServiceImpl::class,
             SendEmailsService::class => SendEmailsServiceImpl::class,
+            DigitalService::class => DigitalServiceImpl::class,
 
         ];
         foreach ($toBinds as $interface => $implementation) {

@@ -46,6 +46,13 @@ return [
             'root' => env('URL_UPLOAD_DOCUMENTS'),
             'visibility' => 'public',
         ],
+        'digFiles' => [
+            'driver' => 'local',
+            //'root' => storage_path('app/docsifo/documentos_sistema/documentos'),
+            'root' => env('RUTA_FISICA_FILES'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+        ],
 
         's3' => [
             'driver' => 's3',

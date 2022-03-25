@@ -16,6 +16,8 @@ use App\Http\Controllers\Aportes\AportesController;
 use App\Http\Controllers\Creditos\EstadoDeCuentaController;
 use App\Http\Controllers\FileEntities\FileEntityController;
 use App\Http\Controllers\Preguntas\HelpQuestionsController;
+use App\Http\Controllers\Digital\SolicitudesController;
+use App\Http\Controllers\Informations\Auth\InformationAllController;
 
 Route::post('/auth/register', [RegisterUserController::class,'register'])->name('register');
 Route::post('/auth/login', [AuthController::class, 'login'])->name('login');
@@ -130,7 +132,16 @@ Route::group(['middleware' => ['jwt.verify'],
     Route::get('notifications',[NotificationAuthController::class,'getMisAllNotificaiones']);
 });
 
+Route::group(['middleware' => ['jwt.verify'],
+    'prefix' => 'digital'], function() {
+    Route::get('solicitudes',[SolicitudesController::class,'getSolicitudes']);
+    Route::get('solicitudes/{id}',[SolicitudesController::class,'show']);
+    Route::get('solicitudes/archivo/{id}',[SolicitudesController::class,'getPathFile']);
+
+});
+
+
 //Libre
 Route::group(['prefix' => 'nosotros'], function() {
-    Route::get('all',[\App\Http\Controllers\Informations\Guest\InformationAllController::class,'index']);
+    Route::get('all',[InformationAllController::class,'index']);
 });

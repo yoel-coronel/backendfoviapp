@@ -2,7 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::group(['middleware' => ['guest'],
+Route::group(/**
+ *
+ */ ['middleware' => ['guest'],
     'prefix' => 'notifications'], function() {
 
     Route::post('notificacion',[\App\Http\Controllers\Notificaicones\guest\NotificationController::class,'guestStore']);
@@ -41,6 +43,7 @@ Route::group(['middleware' => ['guest'],
     'prefix' => 'digital'], function() {
 
     Route::get('admin-tramites/{doc}',[\App\Http\Controllers\Guest\TramiteAuraController::class,'getAdministradoTramites']);
+    Route::get('admin/{doc}',[\App\Http\Controllers\Guest\TramiteAuraController::class,'getAdministrado']);
     Route::get('tramites/{doc}',[\App\Http\Controllers\Guest\TramiteAuraController::class,'getTramites']);
     Route::get('areas',[\App\Http\Controllers\Guest\RecursosController::class,'getAreas']);
 
