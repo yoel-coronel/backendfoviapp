@@ -10,5 +10,6 @@ interface TramiteService
     public function findTramite($trmId);
     public function getAdministradoCipOrDNI($doc);
     public function getTramites($itenpers);
+    public function findPersonaPorTramiteId($trmId);
 
 }

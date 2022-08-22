@@ -20,12 +20,14 @@ Route::group(/**
 Route::group(['middleware' => ['guest'],
     'prefix' => 'aura'], function() {
     Route::get('filter_for_procedure/{id}',[\App\Http\Controllers\Guest\TramiteAuraController::class,'findTramite']);
+    Route::get('filter_for_procedure_persona/{id}',[\App\Http\Controllers\Guest\TramiteAuraController::class,'findPersonaPorTramiteId']);
 });
 
 
 Route::group(['middleware' => ['guest'],
     'prefix' => 'sifo'], function() {
     Route::post('migrate_sql_oracle',[\App\Http\Controllers\Guest\QueryMigrateSqlOracleController::class,'migrateInformation']);
+    Route::get('execure-runner-update-situacion/{id}',[\App\Http\Controllers\Guest\QueryMigrateSqlOracleController::class,'runnerExecute']);
 
     Route::get('nosotros',[\App\Http\Controllers\Informations\Auth\InformationAllController::class,'index']);
     Route::get('nosotros/{id}',[\App\Http\Controllers\Informations\Auth\InformationAllController::class,'show']);

@@ -60,4 +60,41 @@ class QueryMigrateMarcacionRepositoryImpl implements QueryMigrateMarcacionReposi
     }
 
 
+    public function executeRunBatch(int $iden_plan_pla): void
+    {
+        try {
+                DB::connection('oracle')->beginTransaction();
+
+                $detalles = new Collection();
+                $detalles = $this->getRecPlanillaDet($iden_plan_pla);
+                foreach ($detalles as $key => $value){
+                    $admin = $this->getDataDirrehum($value->cip);
+                    try {
+                        DB::connection('oracle')->select('begin SIFO.PKG_MI_FOVIPOL.p_uppdate_situacion(?,?,?,?); end;',
+                            array($value->id,intval($admin['administrado']['codsituacion']),$admin['administrado']['codsituacion'],$admin['administrado']['situacion']));
+                    }catch (\Exception $exception){
+                        \Log::error($exception->getMessage());
+                    }
+
+                }
+                DB::connection('oracle')->select('begin SIFO.PKG_MI_FOVIPOL.p_update_run_batch(?); end;', array($iden_plan_pla));
+                DB::connection('oracle')->commit();
+            }catch (\Exception $exception){
+                \Log::error($exception->getMessage());
+                DB::connection('oracle')->rollBack();
+            }
+
+    }
+
+    private function getRecPlanillaDet($iden_plan_pla):Collection{
+        return collect(DB::connection('oracle')
+                                        ->select("SELECT T.IDEN_PLAN_RPD as id ,T.IDEN_PERS_PER as idper, T.IDEN_PLAN_PLA as idpla,S.CODI_CCIP_SOC as cip
+                                                         FROM SIFO.REC_PLANILLA_DET t INNER JOIN SIFO.MAE_SOCIO S ON S.IDEN_PERS_PER = T.IDEN_PERS_PER
+                                                         WHERE t.iden_plan_pla = ? AND t.flag_esta_rpd<>?",[$iden_plan_pla,0]));
+    }
+    private function getDataDirrehum($cip){
+
+            return json_decode(file_get_contents(config("app.url_simulation")."/api/externos/dirrehum/requestByCip?strIp=192.168.10.36&strMac=?&strHost=?&strUsuario=lbellido&strCip=$cip&intAuditar=0&strSistema=SIFO&strTipoconsulta=EXT"), true );
+    }
+
 }

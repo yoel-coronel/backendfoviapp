@@ -112,10 +112,10 @@ class ExtInformationRepositoryImpl implements ExtInformationRepository
         $extInfo->iden_expe_trm=NULL;
         $extInfo->codi_grad_soc=$data['grado'];
         $extInfo->codi_situ_soc=$data['situacion'];
-        $extInfo->fech_baja_soc=$data['fecRet'];
+        $extInfo->fech_baja_soc=isset($data['fecRet'])?$data['fecRet']:null;
         $extInfo->sexo_pers_per=$data['sexo'];
         $extInfo->grad_pare_per=$data['parentesco'];
-        $extInfo->fech_iesc_soc=$data['fecIngr'];
+        $extInfo->fech_iesc_soc=isset($data['fecIngr'])?$data['fecIngr']:null;
         $extInfo->save();
         return $extInfo;
     }

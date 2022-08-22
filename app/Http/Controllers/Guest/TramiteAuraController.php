@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Guest;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PersonaTramiteResource;
 use App\Services\TramiteService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -129,6 +130,24 @@ class TramiteAuraController extends Controller
         }
 
         return $this->showAll(collect( $this->service->getTramites($doc) ) );
+    }
+    public function findPersonaPorTramiteId(Request $request,$trmId){
+        $rules = [
+            'token' =>'required'
+        ];
+        $validated = Validator::make($request->all(),$rules);
+        if ($validated->fails()){
+            return $this->errorResponseFails(collect($validated->errors()->all()));
+        }
+        if (!Hash::check($request->token, config('app.key_sifo'))){
+            return $this->errorResponseFails(collect(["Las credenciales no son correctas."]),1,401);
+        }
+        $tramite = $this->service->findPersonaPorTramiteId($trmId);
+        if($tramite){
+            return $this->showAll(collect(PersonaTramiteResource::make($tramite)));
+        }else{
+            return $this->errorResponse("No se encontró resultados con el Nro de trámite: {$trmId}",1,400);
+        }
     }
     
 }

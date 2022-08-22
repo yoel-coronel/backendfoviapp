@@ -25,24 +25,24 @@ class SimulationServiceImpl implements SimulationService
          $escalaVigente = $this->maeEntidaddetRepository->getEscalaVigente();
          $topeMaximo = $this->maeEntidaddetRepository->getTopeMaximo($escalaVigente->secu_enti_det,$grado->valo_numd_det)->only('valo_cadu_det','valo_decu_det','valo_decd_det');
         $data_prestamo_anterior = json_decode(file_get_contents(config('app.url_simulation').'/api/sifo/verificarPrestamoAnterior/'.$user->identifier), true );
-         return [
-             'grade_description'=>$topeMaximo['valo_cadu_det'],
-             'maximum_capacity'=> number_format((double) $topeMaximo['valo_decu_det'],2),
-             'additional_bonus' => ((int)$socio['codi_situ_soc'])===1?number_format((double) $topeMaximo['valo_decd_det'],2):0,
-             'product_id' => (int) $data_prestamo_anterior['codigoProducto'],
-             'line_product_id' => (int) $data_prestamo_anterior['lineaProducto'],
-             'enabled_simulation' => ((bool) $data_prestamo_anterior['esAnaf'])?false:true,
-             'message' => ((bool) $data_prestamo_anterior['esAnaf'])?"Se ha detectado que usted se encuentra registrado en la ASOCIACIÓN DE ADJUDICATARIOS DE FOVIPOL ANAF, para poder acceder a una ampliación primero debe refinanciar su crédito":null,
-             'is_loan_new' =>(bool) $data_prestamo_anterior['esPrestamoNuevo'],
-             'maximum_number_of_installments' =>360,
-             'person_id' =>$user->identifier,
-             'ingr_brto_sim' =>0,
-             'boni_ingr_ofi' =>0,
-             'dsct_ofic_sim' =>0,
-             'deud_otra_sim' =>0,
-             'plaz_pres_sim' =>0,
-             'years'=>30,
-         ];
+        return [
+            'grade_description'=>$topeMaximo['valo_cadu_det'],
+            'maximum_capacity'=> number_format((double) $topeMaximo['valo_decu_det'],2),
+            'additional_bonus' => ((int)$socio['codi_situ_soc'])===1?number_format((double) $topeMaximo['valo_decd_det'],2):0,
+            'product_id' => (int) $data_prestamo_anterior['codigoProducto'],
+            'line_product_id' => (int) $data_prestamo_anterior['lineaProducto'],
+            'enabled_simulation' => (bool) $data_prestamo_anterior['esAnaf']==true?true:false,
+            'message' => $data_prestamo_anterior['esAnaf']==true?"Se ha detectado que usted se encuentra registrado en la ASOCIACIÓN DE ADJUDICATARIOS DE FOVIPOL ANAF, para poder acceder a una ampliación primero debe refinanciar su crédito":null,
+            'is_loan_new' =>(bool) $data_prestamo_anterior['esPrestamoNuevo'],
+            'maximum_number_of_installments' =>360,
+            'person_id' =>$user->identifier,
+            'ingr_brto_sim' =>0,
+            'boni_ingr_ofi' =>0,
+            'dsct_ofic_sim' =>0,
+            'deud_otra_sim' =>0,
+            'plaz_pres_sim' =>0,
+            'years'=>30,
+        ];
     }
     public function simularPrestamo(array $data)
     {

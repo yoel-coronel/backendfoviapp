@@ -21,7 +21,7 @@ class MovimientosRepositoryImpl implements MovimientosRepository
                                                FROM SIFO.REC_RECEP_APORTE TA WHERE TA.IDEN_PLAN_REA=T.IDEN_PLAN_REA)  AS ENTIDADPAGO,
                                                 'PAGO DE APORTE' AS  CONCEPTO,
                                                 TRUNC(TO_DATE(('01'||'/'||T.NMES_COBR_APO||'/'||T.ANIO_COBR_APO),'dd/MM/yyyy')) AS FECHAPAGO
-                                               FROM SIFO.REC_APORTE T WHERE T.FLAG_ESTA_APO=1 AND T.TIPO_APOR_APO IN (1,2) AND T.IDEN_PERS_PER=132285 --AND ROWNUM < 10
+                                               FROM SIFO.REC_APORTE T WHERE T.FLAG_ESTA_APO=1 AND T.TIPO_APOR_APO IN (1,2) AND T.IDEN_PERS_PER=$idenpers --AND ROWNUM < 10
                                                ORDER BY TRUNC(TO_DATE(('01'||'/'||T.NMES_COBR_APO||'/'||T.ANIO_COBR_APO),'dd/MM/yyyy')) DESC
                                             )WHERE ROWNUM < 10 ");
 
@@ -34,7 +34,7 @@ class MovimientosRepositoryImpl implements MovimientosRepository
                                 'PAGO DE CREDITO' AS  CONCEPTO,
                                 TRUNC(C.FECH_PAGO_RPG) AS FECHAPAGO
                                FROM SIFO.REC_PAGO_CUOTA C
-                               WHERE C.FLAG_ESTA_RPG<>0 AND C.TIPO_ACCI_PAG=1  AND C.IDEN_PERS_PER=132285 --AND ROWNUM < 10
+                               WHERE C.FLAG_ESTA_RPG<>0 AND C.TIPO_ACCI_PAG=1  AND C.IDEN_PERS_PER=$idenpers --AND ROWNUM < 10
                                ORDER BY TRUNC(C.FECH_PAGO_RPG) DESC
                             )WHERE ROWNUM < 10");
 

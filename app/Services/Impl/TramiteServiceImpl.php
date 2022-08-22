@@ -54,10 +54,10 @@ class TramiteServiceImpl implements TramiteService
                 'completados'=> $completos = $subProcess->map((function($item){
                     return ['completo'=>$item['nro_movimientos'],'area'=>$item['proceso']['maeArea'],'orden'=>$item['proceso']['orde_secu_prc']];
                 })),
-                'nro_completados' => $tp= collect($completos)->where('completo','<>',0)->count(),
+                'nro_completados' =>  (int)$tramite->flag_esta_trm == 2? $tp= $subProcess->count() : $tp= collect($completos)->where('completo','<>',0)->count(),
                 'area_actual' => optional(collect($completos)->where('completo','<>',0)->last())['area']['desc_area_are'],
-                'count_sub_process' => $tpr= $subProcess->count(),
-                'percentage' => round(($tp/$tpr)*100 , 2)
+                'count_sub_process' =>  $tpr= $subProcess->count(),
+                'percentage' => (int)$tramite->flag_esta_trm == 2? 100: round(($tp/$tpr)*100 , 2)
             ];
         });
 
@@ -114,5 +114,9 @@ class TramiteServiceImpl implements TramiteService
     public function getTramites($itenpers)
     {
         return $this->trmTramiteRepository->getTramites($itenpers);
+    }
+    public function findPersonaPorTramiteId($trmId)
+    {
+        return $this->auraCreditoSocioRepository->findPersonaPorTramiteId($trmId);
     }
 }

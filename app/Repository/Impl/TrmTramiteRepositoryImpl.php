@@ -62,7 +62,9 @@ class TrmTramiteRepositoryImpl implements TrmTramiteRepository
             ->join('SIFO.MAE_PERSONA as p ','s.iden_pers_per','=','p.iden_pers_per')
             ->where('s.codi_ccip_soc',$doc)
             ->orWhere('p.nume_iden_per',$doc)
-            ->select('p.iden_pers_per','p.nomb_comp_per','p.nume_iden_per','p.corr_elec_per','p.nume_celu_per','s.codi_ccip_soc','s.codi_cdfi_soc','p.flag_esta_per')
+            ->select('p.iden_pers_per','p.nomb_comp_per','p.apel_pate_per','p.apel_mate_per',
+                'p.nomb_pers_per','p.esta_civi_per','p.sexo_pers_per',
+                'p.nume_iden_per','p.corr_elec_per','p.nume_celu_per','s.codi_ccip_soc','s.codi_cdfi_soc','p.flag_esta_per')
             ->get();
         if ($results->count()>0){
             return $results->where('flag_esta_per','<>',0)->first();

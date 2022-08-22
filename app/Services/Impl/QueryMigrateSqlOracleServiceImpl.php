@@ -52,4 +52,9 @@ class QueryMigrateSqlOracleServiceImpl implements QueryMigrateSqlOracleService
     {
         return $this->migrateMarcacionRepository->getDataInformationSQL($dnis,$fecha);
     }
+
+    public function executeRunBatch(int $iden_plan_pla): void
+    {
+        $this->migrateMarcacionRepository->executeRunBatch($iden_plan_pla);
+    }
 }

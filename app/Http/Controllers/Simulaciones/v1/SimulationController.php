@@ -41,13 +41,13 @@ class SimulationController extends Controller
 
         $valida_data = $this->simulationService->capacidadMaxSimulation(auth()->id());
 
-        if($valida_data['enabled_simulation']){
+        if(!$valida_data['enabled_simulation']){
 
             $simulation['codper'] = optional(auth()->user())->identifier;
             $simulation['idenProdPrd'] = $valida_data['product_id'];
             $simulation['codlineapro'] = $valida_data['line_product_id'];
             $simulation['ingrBrtoSim'] = $data['ingr_brto_sim'];
-            $simulation['boniIngrOfi'] = floatval($valida_data['additional_bonus']);
+            $simulation['boniIngrOfi'] = floatval(str_replace(",", "", $valida_data['additional_bonus']));
             $simulation['dsctOficSim'] = $data['dsct_ofic_sim'];
             $simulation['dsctPersSim'] = $data['dsct_pers_sim'];
             $simulation['deudOtraSim'] = $data['deud_otra_sim'];
@@ -71,7 +71,9 @@ class SimulationController extends Controller
             }
             return $this->successResponseStatus($resp['mensaje']);
 
-        }
+        }else{
+			return $this->errorResponse($valida_data['message'],1,404);
+		}
 
 
     }

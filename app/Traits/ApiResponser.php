@@ -18,7 +18,7 @@ trait ApiResponser
 		return response()->json($data,$code);
 	}
 	protected function successResponseStatus($message,$error=0,$code=200){
-		return response()->json(['message'=>$message,'error'=>$error,'code'=>$code],$code);
+		return response()->json(['messages'=>$message,'error'=>$error,'code'=>$code],$code);
 	}
 
 	protected function errorResponse($message,$error=1,$code=500)

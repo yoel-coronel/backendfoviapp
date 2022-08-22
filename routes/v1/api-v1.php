@@ -143,5 +143,5 @@ Route::group(['middleware' => ['jwt.verify'],
 
 //Libre
 Route::group(['prefix' => 'nosotros'], function() {
-    Route::get('all',[InformationAllController::class,'index']);
+    Route::get('all',[App\Http\Controllers\Informations\Guest\InformationAllController::class,'index']);
 });

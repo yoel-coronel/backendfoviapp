@@ -40,6 +40,9 @@ class EventServiceProvider extends ServiceProvider
         SendTokenSMS::class =>[
            SendTokenTheVerificationSMS::class,
         ],
+        'App\Events\RunnerUpdateSituacion' => [
+            'App\Listeners\RunnerUpdateSituacionListener'
+        ]
     ];
 
     /**
