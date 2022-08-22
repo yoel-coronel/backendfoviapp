@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Optional;
 
@@ -28,7 +29,7 @@ class PersonaTramiteResource extends JsonResource
                 'grado'=> Optional($this->resource->persona)->grado,
                 'codofin'=> Optional($this->resource->persona)->codofin,
                 'cip'=> Optional($this->resource->persona)->cip,
-                'fecha_nac'=> Optional($this->resource->persona)->fecha_nac,
+                'fecha_nac'=> Carbon::parse(Optional($this->resource->persona)->fecha_nac)->format("Y-m-d"),
                 'lugar_nac'=> Optional($this->resource->persona)->lugar_nac,
                 'sexo'=> Optional($this->resource->persona)->sexo,
                 'celular'=> Optional($this->resource->persona)->celular,
@@ -49,7 +50,7 @@ class PersonaTramiteResource extends JsonResource
                 'grado'=> Optional($this->resource->persona->conyuge)->grado,
                 'codofin'=> Optional($this->resource->persona->conyuge)->codofin,
                 'cip'=> Optional($this->resource->persona->conyuge)->cip,
-                'fecha_nac'=> Optional($this->resource->persona->conyuge)->fecha_nac,
+                'fecha_nac'=> Carbon::parse(Optional($this->resource->persona->conyuge)->fecha_nac)->format("Y-m-d"),
                 'lugar_nac'=> Optional($this->resource->persona->conyuge)->lugar_nac,
                 'sexo'=>Optional($this->resource->persona->conyuge)->sexo,
                 'celular'=> Optional($this->resource->persona->conyuge)->celular,
