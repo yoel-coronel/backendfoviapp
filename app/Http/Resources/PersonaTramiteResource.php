@@ -35,7 +35,10 @@ class PersonaTramiteResource extends JsonResource
                 'celular'=> Optional($this->resource->persona)->celular,
                 'correo'=> Optional($this->resource->persona)->correo,
                 'direccion'=> trim(Optional($this->resource->persona)->direccion),
-                'ubigeo_residencia'=> trim(Optional($this->resource->persona)->ubigeo_residencia)
+                'ubigeo_residencia'=> trim(Optional($this->resource->persona)->ubigeo_residencia),
+                'distrito'=>trim(Optional($this->resource->persona)->distrito),
+                'provincia'=>trim(Optional($this->resource->persona)->provincia),
+                'departamento'=>trim(Optional($this->resource->persona)->departamento)
             ],
             'conyuge' => [
                 'idpers' => Optional($this->resource->persona->conyuge)->idpers,
@@ -56,7 +59,10 @@ class PersonaTramiteResource extends JsonResource
                 'celular'=> Optional($this->resource->persona->conyuge)->celular,
                 'correo'=> Optional($this->resource->persona->conyuge)->correo,
                 'direccion'=> trim(Optional($this->resource->persona->conyuge)->direccion),
-                'ubigeo_residencia'=>trim(Optional($this->resource->persona->conyuge)->ubigeo_residencia)
+                'ubigeo_residencia'=>trim(Optional($this->resource->persona->conyuge)->ubigeo_residencia),
+                'distrito'=>trim(Optional($this->resource->persona->conyuge)->distrito),
+                'provincia'=>trim(Optional($this->resource->persona->conyuge)->provincia),
+                'departamento'=>trim(Optional($this->resource->persona->conyuge)->departamento)
             ],
             'labores'=>[
                 'idpers' => Optional($this->resource->trabajo)->idpers,
@@ -65,7 +71,10 @@ class PersonaTramiteResource extends JsonResource
                 'ubigeo_untrab'=> Optional($this->resource->trabajo)->ubigeo_untrab,
                 'ubde_untr_soc'=> Optional($this->resource->trabajo)->ubde_untr_soc,
                 'num_corp'=> Optional($this->resource->trabajo)->num_corp,
-                'correo_corp'=> Optional($this->resource->trabajo)->correo_corp
+                'correo_corp'=> Optional($this->resource->trabajo)->correo_corp,
+                'distrito'=>trim(Optional($this->resource->trabajo)->distrito),
+                'provincia'=>trim(Optional($this->resource->trabajo)->provincia),
+                'departamento'=>trim(Optional($this->resource->trabajo)->departamento)
             ],
             'prestamo'=>[
                 'idpers' => $this->resource->idpers,
