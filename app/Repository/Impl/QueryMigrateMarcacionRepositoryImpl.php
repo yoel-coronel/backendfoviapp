@@ -14,6 +14,7 @@ class QueryMigrateMarcacionRepositoryImpl implements QueryMigrateMarcacionReposi
 
     public function migraInformationTheSQLOracle(array $ids, int $asistencia): void
     {
+        \Log::info($ids);
 
         foreach ($ids as $key=>$value){
             try {
@@ -33,7 +34,7 @@ class QueryMigrateMarcacionRepositoryImpl implements QueryMigrateMarcacionReposi
                 $fecha = Carbon::parse($value['fecha_hora']);
                 DB::connection('oracle')->select('begin SIFO.PKG_RECURSOS_HUMANOS.sp_actualizar_tardanza(?, ?, ?); end;', array($asistencia,$value['secuencia'],$fecha));
                 DB::connection('oracle')->commit();
-
+                \Log::info("Información que actualizará :"+ "Asistencia: "+$asistencia+" persona: "+$value['idenpers'] +" Secuencia: "+$value['secuencia']);
 
             }catch (\Exception $exception){
                 \Log::error($exception->getMessage());

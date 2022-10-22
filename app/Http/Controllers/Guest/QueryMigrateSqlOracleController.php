@@ -39,9 +39,15 @@ class QueryMigrateSqlOracleController extends Controller
                 return $this->errorResponseFails(collect(["Las credenciales no son correctas."]),1,401);
             }
 
-            $this->queryMigrateSqlOracleService->migraInformationTheSQLOracle(collect(request('empleados')),request('asistencia'),request('fecha'));
+           $resul =  $this->queryMigrateSqlOracleService->migraInformationTheSQLOracle(collect(request('empleados')),request('asistencia'),request('fecha'));
 
-            return $this->successResponseStatus("Procesado con éxito");
+            if($resul){
+                return $this->successResponseStatus("Procesado con éxito");
+            }else{
+                return  $this->errorResponse("No se sincronizó ningún registro, verificar la base de datos del Biométrico.",1,400);
+            }
+
+
 
         }catch (\Exception $exception){
 
